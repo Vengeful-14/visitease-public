@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CheckCircle, ArrowLeft, Copy, Check } from 'lucide-react';
+import { CheckCircle, Copy, Check } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import scheduleService, { VisitSlot } from '../services/scheduleService';
-import visitorService, { CreateVisitorData, VisitorType } from '../services/visitorService';
+import { CreateVisitorData } from '../services/visitorService';
 import bookingService from '../services/bookingService';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';

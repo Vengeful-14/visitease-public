@@ -25,7 +25,7 @@ const Schedules: React.FC = () => {
       if (response.success && response.data) {
         // Filter out expired slots and past dates
         const now = new Date();
-        const available = response.data.filter(slot => {
+        const available = response.data.filter((slot: VisitSlot) => {
           const slotDateTime = new Date(`${slot.date}T${slot.startTime}`);
           return slotDateTime >= now && slot.status === 'available';
         });
