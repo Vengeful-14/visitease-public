@@ -25,7 +25,7 @@ export interface BookingValidationData {
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Phone validation - basic phone number format (matches backend isMobilePhone validation)
-const PHONE_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+// Note: PHONE_REGEX removed as it's not currently used in validation logic
 
 export const visitorValidator = {
   // Validate name

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CheckCircle, ArrowLeft, Copy, Check } from 'lucide-react';
+import { CheckCircle, Copy, Check } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import scheduleService, { VisitSlot } from '../services/scheduleService';
-import visitorService, { CreateVisitorData, VisitorType } from '../services/visitorService';
+import { CreateVisitorData } from '../services/visitorService';
 import bookingService from '../services/bookingService';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -452,8 +452,22 @@ const Book: React.FC = () => {
                   </code>
                   <button
                     onClick={async () => {
+                      if (!trackingToken) return;
                       try {
-                        await navigator.clipboard.writeText(trackingToken);
+                        const canUseClipboard = typeof navigator !== 'undefined' && (navigator as any).clipboard && typeof (navigator as any).clipboard.writeText === 'function';
+                        if (canUseClipboard) {
+                          await (navigator as any).clipboard.writeText(trackingToken);
+                        } else {
+                          const textarea = document.createElement('textarea');
+                          textarea.value = trackingToken;
+                          textarea.setAttribute('readonly', '');
+                          textarea.style.position = 'absolute';
+                          textarea.style.left = '-9999px';
+                          document.body.appendChild(textarea);
+                          textarea.select();
+                          try { document.execCommand('copy'); } catch {}
+                          document.body.removeChild(textarea);
+                        }
                         setTokenCopied(true);
                         setTimeout(() => setTokenCopied(false), 2000);
                       } catch (err) {
