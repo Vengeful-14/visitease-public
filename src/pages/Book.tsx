@@ -452,8 +452,22 @@ const Book: React.FC = () => {
                   </code>
                   <button
                     onClick={async () => {
+                      if (!trackingToken) return;
                       try {
-                        await navigator.clipboard.writeText(trackingToken);
+                        const canUseClipboard = typeof navigator !== 'undefined' && (navigator as any).clipboard && typeof (navigator as any).clipboard.writeText === 'function';
+                        if (canUseClipboard) {
+                          await (navigator as any).clipboard.writeText(trackingToken);
+                        } else {
+                          const textarea = document.createElement('textarea');
+                          textarea.value = trackingToken;
+                          textarea.setAttribute('readonly', '');
+                          textarea.style.position = 'absolute';
+                          textarea.style.left = '-9999px';
+                          document.body.appendChild(textarea);
+                          textarea.select();
+                          try { document.execCommand('copy'); } catch {}
+                          document.body.removeChild(textarea);
+                        }
                         setTokenCopied(true);
                         setTimeout(() => setTokenCopied(false), 2000);
                       } catch (err) {
