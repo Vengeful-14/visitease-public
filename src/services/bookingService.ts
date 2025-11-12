@@ -15,6 +15,8 @@ export interface CreateBookingData {
   };
   groupSize: number;
   specialRequests?: string;
+  gcashNumber?: string;
+  referenceNumber?: string;
 }
 
 export interface Booking {
@@ -26,6 +28,9 @@ export interface Booking {
   specialRequests?: string;
   trackingToken?: string;
   createdAt: string;
+  gcashNumber?: string;
+  referenceNumber?: string;
+  notes?: string;
 }
 
 export interface AvailabilityCheck {
@@ -156,6 +161,40 @@ export const bookingService = {
       success: false,
       data: undefined,
       error: response.error || 'Failed to cancel booking',
+    };
+  },
+
+  // Update booking by email and token
+  async updateBooking(
+    email: string,
+    token: string,
+    updates: { groupSize?: number; specialRequests?: string; notes?: string; gcashNumber?: string; referenceNumber?: string }
+  ) {
+    const response = await baseApi.put<Booking>(
+      API_CONFIG.ENDPOINTS.BOOKINGS.UPDATE,
+      { email, token, ...updates }
+    );
+    
+    if (response.success && response.data) {
+      const apiData = response.data as any;
+      if (apiData.success && apiData.data) {
+        return {
+          success: true,
+          data: apiData.data,
+          error: undefined,
+        };
+      }
+      return {
+        success: true,
+        data: apiData as Booking,
+        error: undefined,
+      };
+    }
+    
+    return {
+      success: false,
+      data: undefined,
+      error: response.error || 'Failed to update booking',
     };
   },
 };

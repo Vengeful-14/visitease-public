@@ -12,7 +12,12 @@ import {
   Users,
   Star,
   Camera,
-  BookOpen
+  BookOpen,
+  Award,
+  Trophy,
+  Medal,
+  GraduationCap,
+  Briefcase
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
@@ -40,6 +45,8 @@ import galleryImage12 from '../assets/image/Messenger_creation_5189F6CE-4651-4A1
 // Plan Your Visit images
 import visitImage1 from '../assets/image/Messenger_creation_51AFF94B-FFBA-4D8B-94AA-C286D8A3DFAA.jpeg';
 import visitImage2 from '../assets/image/Messenger_creation_575C53FC-4C55-4BC2-AF23-E0238F5526D8.jpeg';
+// Biography image
+import pedroTolentinoImage from '../assets/image/pedroTolentino.jfif';
 // Museum Features - using internet images based on content
 
 const Landing: React.FC = () => {
@@ -339,108 +346,342 @@ const Landing: React.FC = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="relative py-16 overflow-hidden">
-        {/* Modern Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
-        {/* Floating Bubbles Background */}
-        <div className="absolute inset-0 opacity-20 overflow-hidden">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-2xl animate-float"></div>
-          <div className="absolute top-20 right-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl animate-float-reverse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-2xl animate-float" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl animate-float-slow" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute bottom-10 right-10 w-56 h-56 bg-purple-200 rounded-full mix-blend-multiply filter blur-2xl animate-float-reverse" style={{ animationDelay: '1.5s' }}></div>
-          <div className="absolute top-1/3 left-1/4 w-48 h-48 bg-indigo-200 rounded-full mix-blend-multiply filter blur-2xl animate-float-slow" style={{ animationDelay: '2.5s' }}></div>
+      {/* Biography & Awards Section */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        {/* Modern Abstract Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800">
+          {/* Abstract Geometric Shapes */}
+          <div className="absolute inset-0 opacity-20">
+            {/* Large geometric circles */}
+            <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-amber-400/30 to-orange-500/30 rounded-full mix-blend-overlay filter blur-3xl"></div>
+            <div className="absolute top-1/4 -right-32 w-80 h-80 bg-gradient-to-br from-blue-400/30 to-indigo-500/30 rounded-full mix-blend-overlay filter blur-3xl"></div>
+            <div className="absolute -bottom-32 left-1/4 w-96 h-96 bg-gradient-to-br from-purple-400/30 to-pink-500/30 rounded-full mix-blend-overlay filter blur-3xl"></div>
+            
+            {/* Abstract lines and shapes */}
+            <div className="absolute top-0 left-0 w-full h-full">
+              <svg className="w-full h-full opacity-10" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,200 Q300,100 600,200 T1200,200" stroke="url(#gradient1)" strokeWidth="2" fill="none"/>
+                <path d="M0,400 Q400,300 800,400 T1200,400" stroke="url(#gradient2)" strokeWidth="2" fill="none"/>
+                <path d="M0,600 Q500,500 1000,600 T1200,600" stroke="url(#gradient3)" strokeWidth="2" fill="none"/>
+                <defs>
+                  <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.5"/>
+                    <stop offset="100%" stopColor="#f97316" stopOpacity="0.5"/>
+                  </linearGradient>
+                  <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.5"/>
+                    <stop offset="100%" stopColor="#6366f1" stopOpacity="0.5"/>
+                  </linearGradient>
+                  <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#a855f7" stopOpacity="0.5"/>
+                    <stop offset="100%" stopColor="#ec4899" stopOpacity="0.5"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            
+            {/* Grid pattern overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+          </div>
+
+          {/* Animated particles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-amber-400/40 rounded-full animate-float"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`
+                }}
+              />
+            ))}
+          </div>
         </div>
-        <div className="relative z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Location & Directions</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Contact Information */}
-            <div className="space-y-6 lg:col-span-1">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Get in Touch</h3>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-gray-900">Address</p>
-                      <p className="text-gray-600">Ilijan, Batangas City<br />Batangas, Philippines</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Phone className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-gray-900">Phone</p>
-                      <p className="text-gray-600">+1 (555) 123-4567</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Mail className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-gray-900">Email</p>
-                      <p className="text-gray-600">info@museum.com</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Globe className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-gray-900">Website</p>
-                      <p className="text-gray-600">www.museum.com</p>
-                    </div>
-                  </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Biography Section */}
+          <div className="mb-24">
+            {/* Modern Header */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 rounded-2xl mb-8 shadow-2xl transform rotate-3 hover:rotate-6 transition-transform duration-300">
+                <BookOpen className="w-12 h-12 text-white" />
+              </div>
+              <div className="mb-6">
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-200 to-amber-300 mb-4 drop-shadow-2xl">
+                  Maikling Talambuhay
+                </h2>
+                <div className="inline-flex items-center space-x-3 px-8 py-3 bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 backdrop-blur-md border border-amber-400/30 rounded-full text-lg font-bold text-amber-100 shadow-lg">
+                  <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                  <span>1905 - 1975</span>
+                  <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
                 </div>
               </div>
-              
-              {/* Navigation Buttons */}
-              <div className="pt-4">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Get Directions</h3>
-                <div className="space-y-3">
-                  <Button
-                    variant="primary"
-                    size="md"
-                    className="w-full justify-center"
-                    onClick={() => {
-                      window.open('https://www.google.com/maps/search/?api=1&query=Ilijan+Batangas+City+Philippines', '_blank');
-                    }}
-                  >
-                    <MapPin className="w-4 h-4 mr-2" />
-                    Open in Google Maps
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="md"
-                    className="w-full justify-center"
-                    onClick={() => {
-                      window.open('https://waze.com/ul?q=Ilijan+Batangas+City+Philippines', '_blank');
-                    }}
-                  >
-                    <MapPin className="w-4 h-4 mr-2" />
-                    Open in Waze
-                  </Button>
-                </div>
-              </div>
+              <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-light">
+                Alamin ang buhay at kontribusyon ni Mayor Pedro S. Tolentino
+              </p>
             </div>
 
-            {/* Map - Wider on the right */}
-            <div className="lg:col-span-2">
-              <Card className="p-0 overflow-hidden">
-                <div className="aspect-video w-full h-full">
-                  <iframe
-                    src="https://maps.google.com/maps?q=Ilijan+Batangas+City+Philippines&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Museum Location - Ilijan Batangas City"
-                    className="w-full h-full"
-                  />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+              {/* Left Side - Biography Image with Modern Frame */}
+              <div className="relative lg:sticky lg:top-8">
+                <div className="relative group">
+                  {/* Decorative frame elements */}
+                  <div className="absolute -inset-4 bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-br from-amber-400/30 to-orange-600/30 rounded-2xl"></div>
+                  
+                  {/* Main image container */}
+                  <div className="relative overflow-hidden rounded-2xl shadow-2xl aspect-[4/5] transform group-hover:scale-[1.02] transition-transform duration-500">
+                    <img 
+                      src={pedroTolentinoImage} 
+                      alt="Pedro S. Tolentino" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                    
+                    {/* Content overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="mb-3">
+                        <div className="inline-block px-4 py-1 bg-amber-500/90 backdrop-blur-sm rounded-full text-xs font-bold text-white uppercase tracking-wider mb-3">
+                          Legacy
+                        </div>
+                      </div>
+                      <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">Pedro S. Tolentino</h3>
+                      <p className="text-amber-200 text-lg font-medium">Kauna-unahang Punong Lungsod ng Batangas</p>
+                    </div>
+
+                    {/* Corner accent */}
+                    <div className="absolute top-6 right-6 w-16 h-16 border-2 border-amber-400/50 rounded-lg transform rotate-12"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side - Biography Content with Modern Cards */}
+              <div className="space-y-6">
+                {/* Introduction Card */}
+                <Card className="p-8 lg:p-10 bg-gradient-to-br from-slate-800/90 via-slate-700/90 to-slate-800/90 backdrop-blur-xl shadow-2xl border border-slate-600/30 rounded-3xl">
+                  <div className="prose prose-lg prose-invert max-w-none">
+                    <div className="flex items-start space-x-4 mb-6">
+                      <div className="flex-shrink-0 w-1 h-full bg-gradient-to-b from-amber-400 to-orange-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-slate-200 leading-relaxed text-lg mb-4">
+                          Si <strong className="text-amber-300 font-bold">Pedro S. Tolentino</strong> ay pinanganak noong ikaw 29 ng Abril 1905 sa baryo Ilijan, Batangas, Batangas ang bunsong anak nina <strong className="text-amber-300">Santiago Tolentino</strong> at <strong className="text-amber-300">Emerenciana Silang</strong> na kapwa tubong Ilijan at kasal kay <strong className="text-amber-300">Nellei Reyes</strong> na tubong Taal, Batangas.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Education Timeline Card */}
+                <Card className="p-8 lg:p-10 bg-gradient-to-br from-indigo-900/80 via-blue-900/80 to-indigo-900/80 backdrop-blur-xl shadow-2xl border border-indigo-500/30 rounded-3xl">
+                  <div className="flex items-start mb-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <GraduationCap className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Edukasyon</h3>
+                  </div>
+                  <div className="prose prose-lg prose-invert max-w-none">
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Nagsimula siya ng pag-aaral sa baryo at dahil sa likas na talino ay inilipat ng mataas na pinuno ng paaralan sa <strong className="text-blue-300">Batangas Intermediate School</strong> matapos makapasa sa pagsusulit na ibinigay sa lahat ng mag-aaral ng Grade II sa baryo Ilijan. Doon ay natapos niya ang elementarya.
+                    </p>
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Sa <strong className="text-blue-300">Batangas National High School</strong> siya nagtapos ng sekondarya noong 1924, at sa edad na 20 ay nagtrabaho na bilang guro sa elementarya ng baryo ng Ilijan simula 1925-1928. Noong 1929 ay ipinadala siya bilang pensionado ng munisipyo ng Batangas sa <strong className="text-blue-300">Philippine Normal School</strong> kung saan siya nagtapos ng kolehiyo noong 1931.
+                    </p>
+                    <p className="text-slate-200 leading-relaxed">
+                      Naging punong guro siya ng <strong className="text-blue-300">Batangas Elementary School (1931-1933)</strong>, <strong className="text-blue-300">Malvar Elementary School (1934-1936)</strong>, <strong className="text-blue-300">Lemery Elementary School (1939)</strong>, at nang kalaunan ay itinalagang District Supervisor sa Distrito ng San Jose, Lemery at Lobo.
+                    </p>
+                  </div>
+                </Card>
+
+                {/* Public Service Card */}
+                <Card className="p-8 lg:p-10 bg-gradient-to-br from-purple-900/80 via-pink-900/80 to-purple-900/80 backdrop-blur-xl shadow-2xl border border-purple-500/30 rounded-3xl">
+                  <div className="flex items-start mb-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <Briefcase className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Paglilingkod sa Bayan</h3>
+                  </div>
+                  <div className="prose prose-lg prose-invert max-w-none">
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Nagsimula ang kanyang paglilingkod sa bayan noong mahalal siya bilang municipal councilor sa dalawang magkasunod na termino noong 1947-1955. Habang naglilingkod siya bilang konsehal ng munisipyo ay nag-aaral siya ng abogasiya sa <strong className="text-purple-300">Western Philippine Colleges</strong> pero ito'y ipinagpatuloy niya sa <strong className="text-purple-300">Lyceum of the Philippines</strong> kung saan siya nagtapos noong 1954 at noon din ay nakapasa bilang abogado na may marking 83.25%.
+                    </p>
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Nahalal si <strong className="text-purple-300">Pedro S. Tolentino</strong> bilang Mayor ng Munisipyo ng Batangas noong 1955 at naglingkod hanggang 1967. Nahalal muli siya bilang kauna-unahang <strong className="text-purple-300">Punong Lungsod ng Batangas</strong> noong 1968 at naglingkod muli hanggang 1975.
+                    </p>
+                  </div>
+                </Card>
+
+                {/* Achievements Card */}
+                <Card className="p-8 lg:p-10 bg-gradient-to-br from-emerald-900/80 via-teal-900/80 to-emerald-900/80 backdrop-blur-xl shadow-2xl border border-emerald-500/30 rounded-3xl">
+                  <div className="flex items-start mb-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <Star className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Mga Kontribusyon</h3>
+                  </div>
+                  <div className="prose prose-lg prose-invert max-w-none">
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Sa kanyang pamumuno bilang alkalde ay pinaayos at pinalaki niya ang gusali ng pamahalaang bayan at pinabago ang <strong className="text-emerald-300">Plaza Mabini</strong> na itinatag noong ika-23 ng Hulyo 1965, gayon din ang nasunog na palengke. Sa usaping pangkapayapaan, pinagtibay niya at lalong pinatatag ang "RONDA" sa bayan at mga yon.
+                    </p>
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Isa sa pinakamahalagang kontribusyon ni Mayor Pedro S. Tolentino ay ang pagsusumikap niyang maging lungsod ang munisipyo ng Batangas. At sa bisa ng <strong className="text-emerald-300">Batas Tagapagpaganap 18919</strong>, ang Batangas ay naging lungsod noong ika-23 ng Hulyo, 1969. Pinasinayaan ito noong ika-25 ng Setyembre, 1969.
+                    </p>
+                    <p className="text-slate-200 leading-relaxed mb-4">
+                      Hinirang na pinakatanyag na punong bayan sa buong lalawigan ng Batangas si Mayor Pedro S. Tolentino dahil sa pagpapaunlad niya ng mga nayon sa Lungsod ng Batangas. Sa kanyang pamumuno ay naipayan niya at nabuksan ang mga daan mula sa Sto. Niño, Dumuklay, Konde Labac, Konde Itaas, Talumpok Silangan, Bundok ng Banoy at ang Brgy. Road simula Tabangao hanggang dito sa Ilijan.
+                    </p>
+                    <p className="text-slate-200 leading-relaxed">
+                      Di matatawaran ang pagmamahal niya sa kanyang kapwa Ilijano kaya't ang kanyang adhikain na magkaroon ng magandang edukasyon ang kanyang mga kabaryo ay pinipilit niyang ipatayo ang <strong className="text-emerald-300">Ilijan Experiment High School</strong> na ngayon ay kilalang <strong className="text-emerald-300">Pedro S. Tolentino Memorial National High School</strong> na isinunod sa kanyang pangalan.
+                    </p>
+                  </div>
+                </Card>
+
+                {/* Legacy Card */}
+                <Card className="p-8 lg:p-10 bg-gradient-to-br from-amber-900/80 via-orange-900/80 to-amber-900/80 backdrop-blur-xl shadow-2xl border border-amber-500/30 rounded-3xl">
+                  <div className="flex items-start mb-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                      <Award className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Pamana</h3>
+                  </div>
+                  <div className="prose prose-lg prose-invert max-w-none">
+                    <p className="text-slate-200 leading-relaxed">
+                      Marami pang mga proyekto at nasimulan si Mayor Pedro S. Tolentino upang lubusang mapaglingkuran ang mga mamamayan, subalit binawian siya ng buhay noong <strong className="text-amber-300">Marso 10, 1975</strong> sa Lungsod ng Batangas.
+                    </p>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          {/* Awards Section */}
+          <div>
+            {/* Modern Header */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-400 via-red-500 to-orange-600 rounded-2xl mb-8 shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                <Trophy className="w-12 h-12 text-white" />
+              </div>
+              <div className="mb-6">
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-200 via-red-200 to-orange-300 mb-4 drop-shadow-2xl">
+                  Mga Parangal at Pagkilala
+                </h2>
+              </div>
+              <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-light">
+                Mga karangalan at pagkilala na iginawad kay Mayor Pedro S. Tolentino
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {/* Award Card 1 */}
+              <Card className="group p-8 bg-gradient-to-br from-amber-900/80 via-orange-900/80 to-amber-900/80 backdrop-blur-xl shadow-2xl border border-amber-500/30 rounded-3xl hover:border-amber-400/50 transition-all duration-300 hover:scale-105 hover:shadow-amber-500/20">
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <Award className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mb-2"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">Most Outstanding Mayor</h3>
+                  <p className="text-slate-200 text-base leading-relaxed">
+                    Nahirang bilang pinakatanyag na punong bayan sa buong lalawigan ng Batangas
+                  </p>
+                </div>
+              </Card>
+
+              {/* Award Card 2 */}
+              <Card className="group p-8 bg-gradient-to-br from-blue-900/80 via-indigo-900/80 to-blue-900/80 backdrop-blur-xl shadow-2xl border border-blue-500/30 rounded-3xl hover:border-blue-400/50 transition-all duration-300 hover:scale-105 hover:shadow-blue-500/20">
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <Briefcase className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-12 h-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full mb-2"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">President ng Batangas Lawyers Association</h3>
+                  <p className="text-slate-200 text-base leading-relaxed">
+                    Nahirang na presidente ng Batangas Lawyers Association
+                  </p>
+                </div>
+              </Card>
+
+              {/* Award Card 3 */}
+              <Card className="group p-8 bg-gradient-to-br from-purple-900/80 via-pink-900/80 to-purple-900/80 backdrop-blur-xl shadow-2xl border border-purple-500/30 rounded-3xl hover:border-purple-400/50 transition-all duration-300 hover:scale-105 hover:shadow-purple-500/20">
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <Globe className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-12 h-1 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mb-2"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">International Representative</h3>
+                  <p className="text-slate-200 text-base leading-relaxed">
+                    Nahalal na representante ng Pilipinas para sa International Union of Local Authorities sa Hague, Netherlands
+                  </p>
+                </div>
+              </Card>
+
+              {/* Award Card 4 */}
+              <Card className="group p-8 bg-gradient-to-br from-emerald-900/80 via-teal-900/80 to-emerald-900/80 backdrop-blur-xl shadow-2xl border border-emerald-500/30 rounded-3xl hover:border-emerald-400/50 transition-all duration-300 hover:scale-105 hover:shadow-emerald-500/20">
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <Medal className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-12 h-1 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full mb-2"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">Kauna-unahang City Mayor</h3>
+                  <p className="text-slate-200 text-base leading-relaxed">
+                    Naging kauna-unahang City Mayor ng Batangas noong 1968
+                  </p>
+                </div>
+              </Card>
+
+              {/* Award Card 5 */}
+              <Card className="group p-8 bg-gradient-to-br from-rose-900/80 via-pink-900/80 to-rose-900/80 backdrop-blur-xl shadow-2xl border border-rose-500/30 rounded-3xl hover:border-rose-400/50 transition-all duration-300 hover:scale-105 hover:shadow-rose-500/20">
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <GraduationCap className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-12 h-1 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full mb-2"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">Edukasyon at Serbisyo</h3>
+                  <p className="text-slate-200 text-base leading-relaxed">
+                    Pagbuo ng Ilijan Experiment High School (ngayon ay Pedro S. Tolentino Memorial National High School)
+                  </p>
+                </div>
+              </Card>
+
+              {/* Award Card 6 */}
+              <Card className="group p-8 bg-gradient-to-br from-cyan-900/80 via-blue-900/80 to-cyan-900/80 backdrop-blur-xl shadow-2xl border border-cyan-500/30 rounded-3xl hover:border-cyan-400/50 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/20">
+                <div className="flex flex-col">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <Building2 className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mb-2"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">Pagpapaunlad ng Lungsod</h3>
+                  <p className="text-slate-200 text-base leading-relaxed">
+                    Pagbuo ng lungsod ng Batangas sa bisa ng Batas Tagapagpaganap 18919 noong Hulyo 23, 1969
+                  </p>
                 </div>
               </Card>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -800,6 +1041,112 @@ const Landing: React.FC = () => {
                 </div>
               </div>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="relative py-16 overflow-hidden">
+        {/* Modern Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+        {/* Floating Bubbles Background */}
+        <div className="absolute inset-0 opacity-20 overflow-hidden">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-2xl animate-float"></div>
+          <div className="absolute top-20 right-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl animate-float-reverse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-2xl animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl animate-float-slow" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute bottom-10 right-10 w-56 h-56 bg-purple-200 rounded-full mix-blend-multiply filter blur-2xl animate-float-reverse" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-1/3 left-1/4 w-48 h-48 bg-indigo-200 rounded-full mix-blend-multiply filter blur-2xl animate-float-slow" style={{ animationDelay: '2.5s' }}></div>
+        </div>
+        <div className="relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Location & Directions</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Contact Information */}
+            <div className="space-y-6 lg:col-span-1">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Get in Touch</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <MapPin className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-900">Address</p>
+                      <p className="text-gray-600">Barangay Hall of Ilijan<br />J3MC+26W Barangay, Batangas City<br />Batangas, Philippines</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Phone className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-900">Phone</p>
+                      <p className="text-gray-600">+1 (555) 123-4567</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Mail className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-900">Email</p>
+                      <p className="text-gray-600">info@museum.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Globe className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-900">Website</p>
+                      <p className="text-gray-600">www.museum.com</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Navigation Buttons */}
+              <div className="pt-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Get Directions</h3>
+                <div className="space-y-3">
+                  <Button
+                    variant="primary"
+                    size="md"
+                    className="w-full justify-center"
+                    onClick={() => {
+                      window.open('https://www.google.com/maps/search/?api=1&query=Barangay+Hall+of+Ilijan+J3MC+26W+Barangay+Batangas+City+Batangas', '_blank');
+                    }}
+                  >
+                    <MapPin className="w-4 h-4 mr-2" />
+                    Open in Google Maps
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    className="w-full justify-center"
+                    onClick={() => {
+                      window.open('https://waze.com/ul?q=Barangay+Hall+of+Ilijan+J3MC+26W+Barangay+Batangas+City+Batangas', '_blank');
+                    }}
+                  >
+                    <MapPin className="w-4 h-4 mr-2" />
+                    Open in Waze
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Map - Wider on the right */}
+            <div className="lg:col-span-2">
+              <Card className="p-0 overflow-hidden">
+                <div className="aspect-video w-full h-full">
+                  <iframe
+                    src="https://maps.google.com/maps?q=Barangay+Hall+of+Ilijan+J3MC+26W+Barangay+Batangas+City+Batangas&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Barangay Hall of Ilijan - J3MC+26W Barangay, Batangas City, Batangas"
+                    className="w-full h-full"
+                  />
+                </div>
+              </Card>
+            </div>
+          </div>
           </div>
         </div>
       </section>

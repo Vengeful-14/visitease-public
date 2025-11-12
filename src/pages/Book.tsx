@@ -10,7 +10,7 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Select from '../components/ui/Select';
 import Navbar from '../components/layout/Navbar';
-import { Mail, Phone, Building, User } from 'lucide-react';
+import { Mail, Phone, Building, User, AlertCircle } from 'lucide-react';
 import { visitorValidator, bookingValidator, validateField } from '../utils/validation';
 import Captcha from '../components/ui/Captcha';
 
@@ -36,6 +36,8 @@ const Book: React.FC = () => {
   });
   
   const [groupSize, setGroupSize] = useState<number>(1);
+  const [gcashNumber, setGcashNumber] = useState<string>('');
+  const [referenceNumber, setReferenceNumber] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
@@ -167,6 +169,30 @@ const Book: React.FC = () => {
       setErrors(prev => ({ ...prev, captcha: 'Please complete the security verification' }));
       return;
     }
+
+    // Validate GCash fields are required
+    const gcashNum = gcashNumber.trim();
+    const refNum = referenceNumber.trim();
+    
+    if (!gcashNum) {
+      setErrors(prev => ({ ...prev, gcashNumber: 'GCash number is required' }));
+      return;
+    }
+    
+    if (gcashNum.length < 10 || gcashNum.length > 11) {
+      setErrors(prev => ({ ...prev, gcashNumber: 'GCash number must be 10-11 digits' }));
+      return;
+    }
+    
+    if (!refNum) {
+      setErrors(prev => ({ ...prev, referenceNumber: 'Reference number is required' }));
+      return;
+    }
+    
+    if (refNum.length < 6) {
+      setErrors(prev => ({ ...prev, referenceNumber: 'Reference number must be at least 6 characters' }));
+      return;
+    }
     
     setLoading(true);
     try {
@@ -203,6 +229,8 @@ const Book: React.FC = () => {
         },
         groupSize,
         specialRequests: visitorData.specialRequirements || undefined,
+        gcashNumber: gcashNum,
+        referenceNumber: refNum,
       });
 
       if (bookingResponse.success && bookingResponse.data) {
@@ -292,6 +320,21 @@ const Book: React.FC = () => {
                 <p className="text-sm text-gray-700 mt-1">
                   <strong>Available:</strong> {selectedSlot.capacity - selectedSlot.booked} spots
                 </p>
+              </div>
+            </div>
+
+            {/* Important Reminder Banner */}
+            <div className="mb-6 shadow-md border-l-4 border-amber-400 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg">
+              <div className="p-4 flex items-start space-x-3">
+                <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-amber-900 mb-1">Important Reminder</h3>
+                  <p className="text-sm text-amber-800">
+                    Please <strong>double-check all information fields</strong> before submitting your booking. 
+                    Ensure your name, email, phone number, <strong>GCash number, and reference number are accurate and complete</strong> (both are required). 
+                    Incorrect information may result in booking issues or delays.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -392,6 +435,86 @@ const Book: React.FC = () => {
                 </p>
               </div>
 
+              {/* GCash Payment Information Section */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">GCash Payment Information <span className="text-red-500">*</span></h3>
+                <p className="text-xs text-gray-600 mb-4">
+                  Please provide your GCash payment details below. This information is required to complete your booking.
+                </p>
+                
+                <div className="space-y-4">
+                  <Input
+                    label="GCash Number"
+                    type="tel"
+                    value={gcashNumber}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, ''); // Only allow digits
+                      setGcashNumber(value);
+                      if (errors.gcashNumber) {
+                        setErrors(prev => {
+                          const { gcashNumber: _, ...rest } = prev;
+                          return rest;
+                        });
+                      }
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value.trim();
+                      if (!value) {
+                        setErrors(prev => ({ ...prev, gcashNumber: 'GCash number is required' }));
+                      } else if (value.length < 10) {
+                        setErrors(prev => ({ ...prev, gcashNumber: 'GCash number must be at least 10 digits' }));
+                      } else if (value.length > 11) {
+                        setErrors(prev => ({ ...prev, gcashNumber: 'GCash number must be 10-11 digits' }));
+                      } else {
+                        setErrors(prev => {
+                          const { gcashNumber: _, ...rest } = prev;
+                          return rest;
+                        });
+                      }
+                    }}
+                    error={errors.gcashNumber}
+                    placeholder="09XX XXX XXXX"
+                    maxLength={11}
+                    required
+                    helperText="Enter your GCash mobile number (e.g., 09123456789)"
+                  />
+
+                  <Input
+                    label="GCash Reference Number"
+                    type="text"
+                    value={referenceNumber}
+                    onChange={(e) => {
+                      const value = e.target.value.toUpperCase().trim();
+                      setReferenceNumber(value);
+                      if (errors.referenceNumber) {
+                        setErrors(prev => {
+                          const { referenceNumber: _, ...rest } = prev;
+                          return rest;
+                        });
+                      }
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value.trim();
+                      if (!value) {
+                        setErrors(prev => ({ ...prev, referenceNumber: 'Reference number is required' }));
+                      } else if (value.length < 6) {
+                        setErrors(prev => ({ ...prev, referenceNumber: 'Reference number must be at least 6 characters' }));
+                      } else {
+                        setErrors(prev => {
+                          const { referenceNumber: _, ...rest } = prev;
+                          return rest;
+                        });
+                      }
+                    }}
+                    error={errors.referenceNumber}
+                    placeholder="Enter GCash transaction reference number"
+                    maxLength={50}
+                    required
+                    helperText="Enter the reference number from your GCash payment receipt"
+                  />
+                </div>
+              </div>
+
               {/* Captcha Verification */}
               <Captcha
                 onVerify={(isValid) => {
@@ -419,7 +542,7 @@ const Book: React.FC = () => {
                 <Button 
                   onClick={handleSubmitBooking} 
                   loading={loading}
-                  disabled={!captchaVerified || loading || !!errors.groupSize}
+                  disabled={!captchaVerified || loading || !!errors.groupSize || !gcashNumber.trim() || !referenceNumber.trim() || !!errors.gcashNumber || !!errors.referenceNumber}
                 >
                   Confirm Booking
                 </Button>
@@ -518,6 +641,18 @@ const Book: React.FC = () => {
                   <span className="text-gray-600">Email:</span>
                   <span className="font-medium">{visitorData.email}</span>
                 </div>
+                {gcashNumber && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">GCash Number:</span>
+                    <span className="font-medium">{gcashNumber}</span>
+                  </div>
+                )}
+                {referenceNumber && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">GCash Reference:</span>
+                    <span className="font-medium">{referenceNumber}</span>
+                  </div>
+                )}
                 {bookingId && (
                   <div className="flex justify-between">
                     <span className="text-gray-600">Booking ID:</span>
@@ -551,6 +686,8 @@ const Book: React.FC = () => {
                   country: 'US',
                 });
                 setGroupSize(1);
+                setGcashNumber('');
+                setReferenceNumber('');
                 setCaptchaVerified(false);
                 setErrors({});
                 if (slotId) {

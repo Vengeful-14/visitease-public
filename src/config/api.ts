@@ -17,6 +17,7 @@ export const API_CONFIG = {
       CHECK_AVAILABILITY: (slotId: string) => `/api/v1/public/booking/availability/${slotId}`,
       TRACK: '/api/v1/public/booking/track',
       CANCEL: '/api/v1/public/booking/cancel',
+      UPDATE: '/api/v1/public/booking/update',
     },
   },
   TIMEOUT: 10000, // 10 seconds
