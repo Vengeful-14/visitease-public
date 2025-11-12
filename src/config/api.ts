@@ -1,6 +1,24 @@
 // API Configuration - Public app (no authentication required)
+// In production, use relative URL (same origin) to avoid mixed content issues
+// In development, use the configured API URL or default to localhost
+const getBaseURL = () => {
+  // If VITE_API_URL is explicitly set, use it
+  if (import.meta.env?.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // In production (when served over HTTPS), use relative URL
+  // This ensures API calls use the same protocol as the page (HTTPS)
+  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    return ''; // Relative URL - uses same origin and protocol
+  }
+  
+  // In development, default to localhost
+  return 'http://localhost:3000';
+};
+
 export const API_CONFIG = {
-  BASE_URL: (import.meta.env?.VITE_API_URL) || 'http://localhost:3000',
+  BASE_URL: getBaseURL(),
   ENDPOINTS: {
     // Schedule Management (Public)
     SCHEDULE: {
