@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Mail, Key, Calendar, Clock, Users, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Search, Mail, Key, Calendar, Clock, Users, CheckCircle, XCircle, AlertCircle, Edit } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import bookingService from '../services/bookingService';
 import { useToast } from '../contexts/ToastContext';
@@ -24,6 +24,16 @@ const Track: React.FC = () => {
   const [cancelReason, setCancelReason] = useState('');
   const [cancelling, setCancelling] = useState(false);
   const [cancelError, setCancelError] = useState('');
+  
+  // Update booking state
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [updateError, setUpdateError] = useState('');
+  const [updateGroupSize, setUpdateGroupSize] = useState<number>(1);
+  const [updateSpecialRequests, setUpdateSpecialRequests] = useState('');
+  const [updateNotes, setUpdateNotes] = useState('');
+  const [updateGcashNumber, setUpdateGcashNumber] = useState('');
+  const [updateReferenceNumber, setUpdateReferenceNumber] = useState('');
 
   const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,6 +137,96 @@ const Track: React.FC = () => {
     if (!booking) return false;
     const status = booking.status?.toLowerCase();
     return status !== 'cancelled' && status !== 'completed';
+  };
+
+  const canUpdateBooking = () => {
+    if (!booking) return false;
+    const status = booking.status?.toLowerCase();
+    return status !== 'cancelled' && status !== 'completed';
+  };
+
+  const handleOpenUpdateModal = () => {
+    if (booking) {
+      setUpdateGroupSize(booking.groupSize || 1);
+      setUpdateSpecialRequests(booking.specialRequests || '');
+      setUpdateNotes(booking.notes || '');
+      setUpdateGcashNumber(booking.gcashNumber || '');
+      setUpdateReferenceNumber(booking.referenceNumber || '');
+      setUpdateError('');
+      setIsUpdateModalOpen(true);
+    }
+  };
+
+  const handleUpdateBooking = async () => {
+    if (!email || !token || !booking) {
+      setUpdateError('Missing booking information');
+      return;
+    }
+
+    // Validate group size
+    if (updateGroupSize <= 0) {
+      setUpdateError('Group size must be greater than 0');
+      return;
+    }
+
+    setUpdating(true);
+    setUpdateError('');
+
+    try {
+      const updates: { groupSize?: number; specialRequests?: string; notes?: string; gcashNumber?: string; referenceNumber?: string } = {};
+      
+      // Only include fields that have changed
+      if (updateGroupSize !== booking.groupSize) {
+        updates.groupSize = updateGroupSize;
+      }
+      if (updateSpecialRequests !== (booking.specialRequests || '')) {
+        updates.specialRequests = updateSpecialRequests || undefined;
+      }
+      if (updateNotes !== (booking.notes || '')) {
+        updates.notes = updateNotes || undefined;
+      }
+      if (updateGcashNumber !== (booking.gcashNumber || '')) {
+        updates.gcashNumber = updateGcashNumber || undefined;
+      }
+      if (updateReferenceNumber !== (booking.referenceNumber || '')) {
+        updates.referenceNumber = updateReferenceNumber || undefined;
+      }
+
+      // Check if there are any changes
+      if (Object.keys(updates).length === 0) {
+        setUpdateError('No changes detected. Please modify at least one field.');
+        setUpdating(false);
+        return;
+      }
+
+      const response = await bookingService.updateBooking(email, token, updates);
+      
+      if (response.success && response.data) {
+        setBooking(response.data);
+        setIsUpdateModalOpen(false);
+        setError('');
+        showSuccess(
+          'Booking Updated',
+          'Your booking has been successfully updated. The changes have been saved.'
+        );
+        // Reload booking to get latest data
+        const reloadResponse = await bookingService.trackBooking(email, token);
+        if (reloadResponse.success && reloadResponse.data) {
+          setBooking(reloadResponse.data);
+        }
+      } else {
+        const errorMessage = response.error || 'Failed to update booking';
+        setUpdateError(errorMessage);
+        showError('Update Failed', errorMessage);
+      }
+    } catch (err) {
+      console.error('Update booking error:', err);
+      const errorMessage = 'An error occurred while updating your booking. Please try again.';
+      setUpdateError(errorMessage);
+      showError('Update Failed', errorMessage);
+    } finally {
+      setUpdating(false);
+    }
   };
 
   return (
@@ -265,6 +365,20 @@ const Track: React.FC = () => {
                 </div>
               )}
 
+              {booking.gcashNumber && (
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">GCash Number</p>
+                  <p className="font-semibold text-gray-900">{booking.gcashNumber}</p>
+                </div>
+              )}
+
+              {booking.referenceNumber && (
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">GCash Reference Number</p>
+                  <p className="font-semibold text-gray-900">{booking.referenceNumber}</p>
+                </div>
+              )}
+
               <div>
                 <p className="text-sm text-gray-600 mb-1">Booking Created</p>
                 <p className="font-semibold text-gray-900">
@@ -307,7 +421,16 @@ const Track: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 flex space-x-4">
+            <div className="mt-6 flex flex-wrap gap-4">
+              {canUpdateBooking() && (
+                <Button 
+                  variant="primary" 
+                  onClick={handleOpenUpdateModal}
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Update Booking
+                </Button>
+              )}
               {canCancelBooking() && (
                 <Button 
                   variant="outline" 
@@ -342,6 +465,143 @@ const Track: React.FC = () => {
           cancelText="Keep My Booking"
           variant="warning"
         />
+
+        {/* Update Booking Modal */}
+        <Modal
+          isOpen={isUpdateModalOpen}
+          onClose={() => {
+            setIsUpdateModalOpen(false);
+            setUpdateError('');
+          }}
+          title="Update Booking Details"
+        >
+          <div className="flex flex-col max-h-[70vh]">
+            <div className="overflow-y-auto pr-2 space-y-4 flex-1">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-sm text-blue-800">
+                  <strong>Note:</strong> You can update your booking details below. Changes will be saved immediately.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Group Size <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  type="number"
+                  min="1"
+                  value={updateGroupSize}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 1;
+                    setUpdateGroupSize(value);
+                    setUpdateError('');
+                  }}
+                  placeholder="Enter number of people"
+                  required
+                />
+                {booking?.slot && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    Slot capacity: {booking.slot.capacity} people
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Special Requests
+                </label>
+                <textarea
+                  value={updateSpecialRequests}
+                  onChange={(e) => {
+                    setUpdateSpecialRequests(e.target.value);
+                    setUpdateError('');
+                  }}
+                  placeholder="Any special requests or requirements..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows={4}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Notes
+                </label>
+                <textarea
+                  value={updateNotes}
+                  onChange={(e) => {
+                    setUpdateNotes(e.target.value);
+                    setUpdateError('');
+                  }}
+                  placeholder="Additional notes..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows={3}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  GCash Number
+                </label>
+                <Input
+                  type="text"
+                  value={updateGcashNumber}
+                  onChange={(e) => {
+                    setUpdateGcashNumber(e.target.value);
+                    setUpdateError('');
+                  }}
+                  placeholder="Enter GCash number"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Update your GCash payment number
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  GCash Reference Number
+                </label>
+                <Input
+                  type="text"
+                  value={updateReferenceNumber}
+                  onChange={(e) => {
+                    setUpdateReferenceNumber(e.target.value);
+                    setUpdateError('');
+                  }}
+                  placeholder="Enter GCash reference number"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Update your GCash payment reference number
+                </p>
+              </div>
+
+              {updateError && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <p className="text-sm text-red-800">{updateError}</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 mt-4 bg-white">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsUpdateModalOpen(false);
+                  setUpdateError('');
+                }}
+                disabled={updating}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleUpdateBooking}
+                disabled={updating || updateGroupSize <= 0}
+                loading={updating}
+              >
+                {updating ? 'Updating...' : 'Save Changes'}
+              </Button>
+            </div>
+          </div>
+        </Modal>
 
         {/* Cancel Booking Modal */}
         <Modal
